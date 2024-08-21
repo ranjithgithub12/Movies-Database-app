@@ -1,0 +1,40 @@
+.home-loader-container {
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.failure-view-container-home {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+}
+.failure-view-home {
+  width: 100px;
+}
+@media (max-width: 767px) {
+  .failure-view-home {
+    width: 50px;
+  }
+}
+
+.failure-view-content-home {
+  font-family: 'Roboto';
+  font-size: 20px;
+}
+
+@media (max-width: 767px) {
+  .failure-view-content-home {
+    font-size: 15px;
+  }
+}
+.retry-button-home {
+  background-color: #3972ed;
+  color: #ffffff;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+}
