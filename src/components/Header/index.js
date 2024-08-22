@@ -15,7 +15,7 @@ class Header extends Component {
   render() {
     const {match} = this.props
     const {path} = match
-    console.log(path)
+
     let homeStyleClassName
     let topratedClassName
     let upcomingClassName
@@ -45,19 +45,17 @@ class Header extends Component {
     return (
       <nav className="nav-container">
         <h1 className="header-heading">movieDB</h1>
-        <ul className="unorder-list-header">
+        <div className="unorder-list-header">
           <Link to="/" className="link-header">
-            <li className={`list-of-header ${homeStyleClassName}`}>Home</li>
+            <h1 className={`list-of-header ${homeStyleClassName}`}>Popular</h1>
           </Link>
           <Link to="/top-rated" className="link-header">
-            <li className={`list-of-header ${topratedClassName}`}>TopRated</li>
+            <h1 className={`list-of-header ${topratedClassName}`}>Top Rated</h1>
           </Link>
           <Link to="/upcoming" className="link-header">
-            <li className={`list-of-header ${upcomingClassName}`}>
-              UpcomingMovies
-            </li>
+            <h1 className={`list-of-header ${upcomingClassName}`}>Upcoming</h1>
           </Link>
-        </ul>
+        </div>
         <div>
           <Link to="/search" className="link-header link-search">
             <input type="search" className="input-search" />

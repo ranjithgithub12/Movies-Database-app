@@ -3,51 +3,59 @@ import {Component} from 'react'
 import Loader from 'react-loader-spinner'
 
 import Header from '../Header'
-import ApiGetMovies from '../ApiGetMovies'
 
 const apiStatusConstants = {
   initial: 'INITIAL',
-  loading: 'LOADING',
-  failure: 'FAILURE',
   success: 'SUCCESS',
+  failure: 'FAILURE',
+  loading: 'LOADING',
 }
 
-class TopRated extends Component {
-  state = {apiStatus: apiStatusConstants.initial, topRated: []}
+class SingleMovieDetails extends Component {
+  state = {apiStatus: apiStatusConstants.initial, singleMovieDetail: []}
 
   componentDidMount() {
-    this.getTopRatedMovies()
+    this.getSingleMoviesDetails()
   }
 
-  getTopRatedMovies = async () => {
+  getSingleMoviesDetails = async () => {
     this.setState({apiStatus: apiStatusConstants.loading})
-
-    const apiUrl = `https://api.themoviedb.org/3/movie/top_rated?api_key=6e077499d3465c6f3708cbff69edcd12&language=en-US&page=1`
+    const {match} = this.props
+    const {params} = match
+    const {id} = params
+    console.log(id)
+    const apiUrl = `https://api.themoviedb.org/3/movie/${id}?api_key=6e077499d3465c6f3708cbff69edcd12&language=en-US`
 
     try {
       const response = await fetch(apiUrl)
       if (response.ok) {
         const data = await response.json()
-        const updatedData = data.results.map(eachItem => ({
-          backdropPath: eachItem.backdrop_path,
-          id: eachItem.id,
-          originalTitle: eachItem.original_title,
-          posterPath: eachItem.poster_path,
-          title: eachItem.title,
-          voteAverage: eachItem.vote_average,
-        }))
+        const updatedata = {
+          id: data.id,
+          posterPath: data.poster_path,
+          overview: data.overview,
+          voteAverage: data.vote_average,
+          runtime: data.runtime,
+          releaseDate: data.release_date,
+        }
 
         this.setState({
-          topRated: updatedData,
+          singleMovieDetail: updatedata,
           apiStatus: apiStatusConstants.success,
         })
       } else {
         this.setState({apiStatus: apiStatusConstants.failure})
       }
     } catch (error) {
-      console.error('fetch error::', error)
+      console.error('Fetch error:', error)
       this.setState({apiStatus: apiStatusConstants.failure})
     }
+  }
+
+  renderSuccessView = () => {
+    const {singleMovieDetail} = this.state
+
+    return <div>success</div>
   }
 
   renderLoadingView = () => (
@@ -59,20 +67,7 @@ class TopRated extends Component {
   )
 
   onClickRetry = () => {
-    this.getTopRatedMovies()
-  }
-
-  renderSuccessView = () => {
-    const {topRated} = this.state
-    return (
-      <div>
-        <ul className="unorder-popular-movies">
-          {topRated.map(eachItem => (
-            <ApiGetMovies popularMoviePoster={eachItem} key={eachItem.id} />
-          ))}
-        </ul>
-      </div>
-    )
+    this.getSingleMoviesDetails()
   }
 
   renderFailureView = () => (
@@ -97,7 +92,7 @@ class TopRated extends Component {
     </div>
   )
 
-  renderTopRateMovies = () => {
+  renderSingleMovieDetails = () => {
     const {apiStatus} = this.state
 
     switch (apiStatus) {
@@ -116,10 +111,12 @@ class TopRated extends Component {
     return (
       <div>
         <Header />
-        {this.renderTopRateMovies()}
+        <div className="movie-details-container">
+          {this.renderSingleMovieDetails()}
+        </div>
       </div>
     )
   }
 }
 
-export default TopRated
+export default SingleMovieDetails

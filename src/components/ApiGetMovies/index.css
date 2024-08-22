@@ -1,0 +1,14 @@
+.list-of-popular-movies {
+  list-style-type: none;
+  padding: 20px;
+  width: 200px;
+  border: 1px solid;
+  margin: 10px;
+  border-radius: 5px;
+}
+.popular-poster-heading {
+  font-size: 15px;
+}
+.popular-poster-image{
+  width: 50px;
+}

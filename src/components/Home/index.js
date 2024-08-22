@@ -4,6 +4,7 @@ import {Component} from 'react'
 import Loader from 'react-loader-spinner'
 
 import Header from '../Header'
+import ApiGetMovies from '../ApiGetMovies'
 
 const apiStatusConstants = {
   initial: 'INITIAL',
@@ -22,18 +23,45 @@ class Home extends Component {
   getHomePageMovie = async () => {
     this.setState({apiStatus: apiStatusConstants.loading})
 
-    const apiURL = 'https://api.themoviedb.org/3/movie/popular?api_key=${c38cbc6058c0a23b4abf6f3d56079b1b}&language=en-US&page=1'
+    const apiUrl = `https://api.themoviedb.org/3/movie/popular?api_key=6e077499d3465c6f3708cbff69edcd12&language=en-US&page=1`
+
     const options = {
-      method:'GET'
+      method: 'GET',
     }
-    const response = await fetch(apiURL,options)
+
+    const response = await fetch(apiUrl, options)
     const data = await response.json()
-    console.log(data)
+
+    if (response.ok === true) {
+      const updatedData = data.results.map(eachItem => ({
+        adult: eachItem.adult,
+        backdropPath: eachItem.backdrop_path,
+        genreIds: eachItem.genre_ids,
+        id: eachItem.id,
+        originalLanguage: eachItem.original_language,
+        originalTitle: eachItem.original_title,
+        overview: eachItem.overview,
+        popularity: eachItem.popularity,
+        posterPath: eachItem.poster_path,
+        releaseDate: eachItem.release_date,
+        title: eachItem.title,
+        video: eachItem.video,
+        voteAverage: eachItem.vote_average,
+        voteCount: eachItem.vote_count,
+      }))
+
+      this.setState({
+        popularMovie: updatedData,
+        apiStatus: apiStatusConstants.success,
+      })
+    } else {
+      this.setState({apiStatus: apiStatusConstants.failure})
+    }
   }
 
   renderLoadingView = () => (
     <div>
-      <div className="home-loader-container" testid="loader">
+      <div className="home-loader-container">
         <Loader type="TailSpin" color="#D81F26" height={50} with={50} />
       </div>
     </div>
@@ -41,6 +69,19 @@ class Home extends Component {
 
   onClickRetry = () => {
     this.getHomePageMovie()
+  }
+
+  renderSuccessView = () => {
+    const {popularMovie} = this.state
+    return (
+      <div>
+        <ul className="unorder-popular-movies">
+          {popularMovie.map(eachItem => (
+            <ApiGetMovies popularMoviePoster={eachItem} key={eachItem.id} />
+          ))}
+        </ul>
+      </div>
+    )
   }
 
   renderFailureView = () => (
@@ -64,6 +105,7 @@ class Home extends Component {
       </div>
     </div>
   )
+
   renderHomePageList = () => {
     const {apiStatus} = this.state
 
