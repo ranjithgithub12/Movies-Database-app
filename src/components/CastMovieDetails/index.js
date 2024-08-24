@@ -53,11 +53,12 @@ class CastMovieDetails extends Component {
     const {castMovieList} = this.state
     return (
       <div>
-        <ul>
+        <ul className="unorder-list-of-cast-movie">
           {castMovieList.map(eachItem => (
-            <li>
+            <li className="list-of-cast-movie">
               <img
-                src={`https://image.tmdb.org/t/p/w500${eachItem.posterPath}`}
+                src={`https://image.tmdb.org/t/p/w500${eachItem.profilePath}`}
+                className="cast-movie-image"
               />
               <h3>{eachItem.originalName}</h3>
               <p>CharacterName:{eachItem.character}</p>
