@@ -97,8 +97,11 @@
   }
 }
 .search-button {
-  background-color: transparent;
-  border: none;
+  background-color: white;
+  color: #fc4542;
+  margin-left: 5px;
+  margin-right: 5px;
+  border-radius: 5px;
   cursor: pointer;
 }
 @media (min-width: 767px) {
@@ -113,4 +116,7 @@
 }
 .mobile-view-icons {
   color: #ffffff;
+}
+.search-container {
+  display: flex;
 }

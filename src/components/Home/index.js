@@ -29,32 +29,38 @@ class Home extends Component {
       method: 'GET',
     }
 
-    const response = await fetch(apiUrl, options)
-    const data = await response.json()
+    try {
+      const response = await fetch(apiUrl, options)
 
-    if (response.ok === true) {
-      const updatedData = data.results.map(eachItem => ({
-        adult: eachItem.adult,
-        backdropPath: eachItem.backdrop_path,
-        genreIds: eachItem.genre_ids,
-        id: eachItem.id,
-        originalLanguage: eachItem.original_language,
-        originalTitle: eachItem.original_title,
-        overview: eachItem.overview,
-        popularity: eachItem.popularity,
-        posterPath: eachItem.poster_path,
-        releaseDate: eachItem.release_date,
-        title: eachItem.title,
-        video: eachItem.video,
-        voteAverage: eachItem.vote_average,
-        voteCount: eachItem.vote_count,
-      }))
+      if (response.ok === true) {
+        const data = await response.json()
 
-      this.setState({
-        popularMovie: updatedData,
-        apiStatus: apiStatusConstants.success,
-      })
-    } else {
+        const updatedData = data.results.map(eachItem => ({
+          adult: eachItem.adult,
+          backdropPath: eachItem.backdrop_path,
+          genreIds: eachItem.genre_ids,
+          id: eachItem.id,
+          originalLanguage: eachItem.original_language,
+          originalTitle: eachItem.original_title,
+          overview: eachItem.overview,
+          popularity: eachItem.popularity,
+          posterPath: eachItem.poster_path,
+          releaseDate: eachItem.release_date,
+          title: eachItem.title,
+          video: eachItem.video,
+          voteAverage: eachItem.vote_average,
+          voteCount: eachItem.vote_count,
+        }))
+
+        this.setState({
+          popularMovie: updatedData,
+          apiStatus: apiStatusConstants.success,
+        })
+      } else {
+        this.setState({apiStatus: apiStatusConstants.failure})
+      }
+    } catch (error) {
+      console.log('Fetch error', error)
       this.setState({apiStatus: apiStatusConstants.failure})
     }
   }

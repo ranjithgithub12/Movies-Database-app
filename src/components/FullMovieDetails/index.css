@@ -1,0 +1,18 @@
+.details-first-container {
+  margin: 20px;
+}
+.detail-image {
+  height: 250px;
+  width: 250px;
+}
+.rating-duration-contianer {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.headings {
+  color: rgb(62, 26, 223);
+}
+.movie-heading {
+  color: rgb(167, 44, 248);
+}

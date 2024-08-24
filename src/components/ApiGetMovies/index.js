@@ -15,7 +15,7 @@ const ApiGetMovies = props => {
       <h1 className="popular-poster-heading">{title}</h1>
       <p> Rating: {voteAverage}</p>
       <Link to={`/movies/${id}`}>
-        <button>View Details</button>
+        <button type="button">View Details</button>
       </Link>
     </li>
   )

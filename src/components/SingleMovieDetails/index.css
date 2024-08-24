@@ -1,3 +1,12 @@
 .movie-details-container {
   min-height: 50vh;
 }
+.cast-heading {
+  color: rgb(206, 44, 66);
+  margin: 20px;
+  font-size: 25px;
+  font-weight: 600;
+}
+.cast-movie-contianers {
+  margin: 20px;
+}

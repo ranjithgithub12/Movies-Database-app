@@ -1,10 +1,7 @@
 import './index.css'
+
 import {Component} from 'react'
 import Loader from 'react-loader-spinner'
-
-import Header from '../Header'
-import FullMovieDetails from '../FullMovieDetails'
-import CastMovieDetails from '../CastMovieDetails'
 
 const apiStatusConstants = {
   initial: 'INITIAL',
@@ -13,45 +10,36 @@ const apiStatusConstants = {
   loading: 'LOADING',
 }
 
-class SingleMovieDetails extends Component {
-  state = {
-    apiStatus: apiStatusConstants.initial,
-    singleMovieDetail: [],
-    movieId: '',
+class CastMovieDetails extends Component {
+  state = {apiStatus: apiStatusConstants.initial, castMovieList: []}
+
+  componentDidUpdate(prevProps) {
+    const {movieId} = this.props
+    if (prevProps.movieId !== movieId) {
+      this.getCastMovieDetails()
+    }
   }
 
-  componentDidMount() {
-    this.getSingleMoviesDetails()
-  }
-
-  getSingleMoviesDetails = async () => {
+  getCastMovieDetails = async () => {
     this.setState({apiStatus: apiStatusConstants.loading})
-    const {match} = this.props
-    const {params} = match
-    const {id} = params
-    this.setState({movieId: id})
-    const apiUrl = `https://api.themoviedb.org/3/movie/${id}?api_key=6e077499d3465c6f3708cbff69edcd12&language=en-US`
-
+    const {movieId} = this.props
+    console.log(movieId)
+    const apiUrl = `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=6e077499d3465c6f3708cbff69edcd12&language=en-US`
     try {
       const response = await fetch(apiUrl)
       if (response.ok) {
         const data = await response.json()
-
-        const updatedata = {
-          id: data.id,
-          title: data.title,
-          posterPath: data.poster_path,
-          overview: data.overview,
-          voteAverage: data.vote_average,
-          runtime: data.runtime,
-          genres: data.genres,
-          releaseDate: data.release_date,
-        }
-
+        const updateData = data.cast.map(eachItem => ({
+          id: eachItem.id,
+          originalName: eachItem.original_name,
+          profilePath: eachItem.profile_path,
+          character: eachItem.character,
+        }))
         this.setState({
-          singleMovieDetail: updatedata,
+          castMovieList: updateData,
           apiStatus: apiStatusConstants.success,
         })
+        console.log(data)
       } else {
         this.setState({apiStatus: apiStatusConstants.failure})
       }
@@ -62,11 +50,20 @@ class SingleMovieDetails extends Component {
   }
 
   renderSuccessView = () => {
-    const {singleMovieDetail} = this.state
-
+    const {castMovieList} = this.state
     return (
       <div>
-        <FullMovieDetails movieDetails={singleMovieDetail} />
+        <ul>
+          {castMovieList.map(eachItem => (
+            <li>
+              <img
+                src={`https://image.tmdb.org/t/p/w500${eachItem.posterPath}`}
+              />
+              <h3>{eachItem.originalName}</h3>
+              <p>CharacterName:{eachItem.character}</p>
+            </li>
+          ))}
+        </ul>
       </div>
     )
   }
@@ -80,7 +77,7 @@ class SingleMovieDetails extends Component {
   )
 
   onClickRetry = () => {
-    this.getSingleMoviesDetails()
+    this.getCastMovieDetails()
   }
 
   renderFailureView = () => (
@@ -105,7 +102,7 @@ class SingleMovieDetails extends Component {
     </div>
   )
 
-  renderSingleMovieDetails = () => {
+  renderCastMovies = () => {
     const {apiStatus} = this.state
 
     switch (apiStatus) {
@@ -121,20 +118,8 @@ class SingleMovieDetails extends Component {
   }
 
   render() {
-    const {movieId} = this.state
-    return (
-      <div className="full-movie-details">
-        <Header />
-        <div className="movie-details-container">
-          {this.renderSingleMovieDetails()}
-        </div>
-        <h1 className="cast-heading">Cast Details</h1>
-        <div className="cast-movie-contianers">
-          <CastMovieDetails movieId={movieId} />
-        </div>
-      </div>
-    )
+    return <div>{this.renderCastMovies()}</div>
   }
 }
 
-export default SingleMovieDetails
+export default CastMovieDetails

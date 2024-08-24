@@ -2,14 +2,32 @@ import './index.css'
 
 import {Component} from 'react'
 import {Link, withRouter} from 'react-router-dom'
-import {IoSearch} from 'react-icons/io5'
-import {MdMenuOpen} from 'react-icons/md'
 
 class Header extends Component {
   state = {mobileViewHeader: false}
 
   onClickMobileBar = () => {
     this.setState({mobileViewHeader: true})
+  }
+
+  onClickSearchIcon = () => {
+    const {onClicksearch, match} = this.props
+    const {path} = match
+    if (path === '/search') {
+      onClicksearch()
+    }
+  }
+
+  onChangeSearchInput = event => {
+    const {changeSearchInput} = this.props
+    changeSearchInput(event.target.value)
+  }
+
+  enterKeyDown = event => {
+    const {onEnterKeyDown} = this.props
+    if (event.key === 'Enter') {
+      onEnterKeyDown()
+    }
   }
 
   render() {
@@ -42,6 +60,7 @@ class Header extends Component {
         upcomingClassName = 'inactive'
         break
     }
+    const {searchInput} = this.props
     return (
       <nav className="nav-container">
         <h1 className="header-heading">movieDB</h1>
@@ -56,13 +75,23 @@ class Header extends Component {
             <h1 className={`list-of-header ${upcomingClassName}`}>Upcoming</h1>
           </Link>
         </div>
-        <div>
+        <div className="search-container">
           <Link to="/search" className="link-header link-search">
-            <input type="search" className="input-search" />
-            <button type="button" className="search-button">
-              <IoSearch size={15} />
-            </button>
+            <input
+              type="text"
+              className="input-search"
+              value={searchInput}
+              onChange={this.onChangeSearchInput}
+              onKeyDown={this.enterKeyDown}
+            />
           </Link>
+          <button
+            type="button"
+            className="search-button"
+            onClick={this.onClickSearchIcon}
+          >
+            Search
+          </button>
         </div>
         <div className="mobile-nav-container">
           <button
@@ -70,7 +99,7 @@ class Header extends Component {
             className="mobile-menu-button"
             onClick={this.onClickMobileBar}
           >
-            <MdMenuOpen size={25} className="mobile-view-icons" />
+            Search
           </button>
         </div>
       </nav>
