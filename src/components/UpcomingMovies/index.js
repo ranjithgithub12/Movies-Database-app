@@ -13,16 +13,36 @@ const apiStatusConstants = {
 }
 
 class UpcomingMovies extends Component {
-  state = {apiStatus: apiStatusConstants.initial, upcomingMovies: []}
+  state = {apiStatus: apiStatusConstants.initial, upcomingMovies: [], pageNo: 1}
 
   componentDidMount() {
     this.getTopRatedMovies()
   }
 
+  onClickNextPage = () => {
+    this.setState(
+      prevState => ({pageNo: prevState.pageNo + 1}),
+      this.getTopRatedMovies,
+    )
+  }
+
+  onClickPrevPage = () => {
+    const {pageNo} = this.state
+
+    if (pageNo > 1) {
+      this.setState(
+        prevState => ({pageNo: prevState.pageNo - 1}),
+        this.getTopRatedMovies,
+      )
+    }
+  }
+
   getTopRatedMovies = async () => {
     this.setState({apiStatus: apiStatusConstants.loading})
 
-    const apiUrl = `https://api.themoviedb.org/3/movie/upcoming?api_key=6e077499d3465c6f3708cbff69edcd12&language=en-US&page=1`
+    const {pageNo} = this.state
+
+    const apiUrl = `https://api.themoviedb.org/3/movie/upcoming?api_key=6e077499d3465c6f3708cbff69edcd12&language=en-US&page=${pageNo}`
 
     try {
       const response = await fetch(apiUrl)
@@ -63,7 +83,8 @@ class UpcomingMovies extends Component {
   }
 
   renderSuccessView = () => {
-    const {upcomingMovies} = this.state
+    const {upcomingMovies, pageNo} = this.state
+
     return (
       <div>
         <ul className="unorder-popular-movies">
@@ -71,6 +92,23 @@ class UpcomingMovies extends Component {
             <ApiGetMovies popularMoviePoster={eachItem} key={eachItem.id} />
           ))}
         </ul>
+        <div className="page-no-container">
+          <button
+            type="button"
+            className="page-no-button"
+            onClick={this.onClickNextPage}
+          >
+            Next
+          </button>
+          <p>{pageNo}</p>
+          <button
+            type="button"
+            className="page-no-button"
+            onClick={this.onClickPrevPage}
+          >
+            Prev
+          </button>
+        </div>
       </div>
     )
   }

@@ -44,3 +44,19 @@
   flex-wrap: wrap;
   justify-content: center;
 }
+
+.page-no-button {
+  padding: 5px;
+  border-radius: 5px;
+  background-color: #3972ed;
+  color: white;
+  margin-left: 10px;
+  margin-right: 10px;
+  border: none;
+  width: 75px;
+}
+.page-no-container {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}

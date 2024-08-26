@@ -14,16 +14,36 @@ const apiStatusConstants = {
 }
 
 class Home extends Component {
-  state = {apiStatus: apiStatusConstants.initial, popularMovie: []}
+  state = {apiStatus: apiStatusConstants.initial, popularMovie: [], pageNo: 1}
 
   componentDidMount() {
     this.getHomePageMovie()
   }
 
+  onClickNextPage = () => {
+    this.setState(
+      prevState => ({pageNo: prevState.pageNo + 1}),
+      this.getHomePageMovie,
+    )
+  }
+
+  onClickPrevPage = () => {
+    const {pageNo} = this.state
+
+    if (pageNo > 1) {
+      this.setState(
+        prevState => ({pageNo: prevState.pageNo - 1}),
+        this.getHomePageMovie,
+      )
+    }
+  }
+
   getHomePageMovie = async () => {
     this.setState({apiStatus: apiStatusConstants.loading})
 
-    const apiUrl = `https://api.themoviedb.org/3/movie/popular?api_key=6e077499d3465c6f3708cbff69edcd12&language=en-US&page=1`
+    const {pageNo} = this.state
+
+    const apiUrl = `https://api.themoviedb.org/3/movie/popular?api_key=6e077499d3465c6f3708cbff69edcd12&language=en-US&page=${pageNo}`
 
     const options = {
       method: 'GET',
@@ -78,7 +98,9 @@ class Home extends Component {
   }
 
   renderSuccessView = () => {
-    const {popularMovie} = this.state
+    const {popularMovie, pageNo} = this.state
+
+    console.log(pageNo)
     return (
       <div>
         <ul className="unorder-popular-movies">
@@ -86,6 +108,24 @@ class Home extends Component {
             <ApiGetMovies popularMoviePoster={eachItem} key={eachItem.id} />
           ))}
         </ul>
+        <div className="page-no-container">
+          <button
+            type="button"
+            className="page-no-button"
+            onClick={this.onClickNextPage}
+          >
+            Next
+          </button>
+          <p>{pageNo}</p>
+
+          <button
+            type="button"
+            className="page-no-button"
+            onClick={this.onClickPrevPage}
+          >
+            Prev
+          </button>
+        </div>
       </div>
     )
   }
