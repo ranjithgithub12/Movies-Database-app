@@ -10,7 +10,7 @@
   width: 150px;
   text-align: center;
 }
-.unorder-list-of-cast-movie{
+.unorder-list-of-cast-movie {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
