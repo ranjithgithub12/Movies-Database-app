@@ -29,7 +29,7 @@
 
 @media (max-width: 576px) {
   .header-heading {
-    font-size: 20px;
+    font-size: 12px;
   }
 }
 
@@ -38,11 +38,6 @@
   padding: 0px;
 }
 
-@media (max-width: 767px) {
-  .unorder-list-header {
-    display: none;
-  }
-}
 .link-header {
   text-decoration: none;
 }
@@ -52,6 +47,13 @@
   font-size: 20px;
   font-family: 'Roboto';
   color: #ffffff;
+}
+
+@media (max-width:567px){
+  .list-of-header{
+    font-size: 8px;
+    margin-left: 5px;
+  }
 }
 .active {
   color: #fc4542;
@@ -89,8 +91,8 @@
 
 @media (max-width: 576px) {
   .link-search {
-    width: 100px;
-    height: 20px;
+    width: 70px;
+    height: 15px;
   }
   .input-search {
     width: 75px;
@@ -104,19 +106,13 @@
   border-radius: 5px;
   cursor: pointer;
 }
-@media (min-width: 767px) {
-  .mobile-nav-container {
-    display: none;
+@media(max-width:567px){
+  .search-button{
+    font-size: 7px;
+    border-radius: 2px;
   }
 }
 
-.mobile-menu-button {
-  border: none;
-  background-color: transparent;
-}
-.mobile-view-icons {
-  color: #ffffff;
-}
 .search-container {
   display: flex;
 }

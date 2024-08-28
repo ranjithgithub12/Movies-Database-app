@@ -112,18 +112,17 @@ class Home extends Component {
           <button
             type="button"
             className="page-no-button"
-            onClick={this.onClickNextPage}
-          >
-            Next
-          </button>
-          <p>{pageNo}</p>
-
-          <button
-            type="button"
-            className="page-no-button"
             onClick={this.onClickPrevPage}
           >
             Prev
+          </button>
+          <p>{pageNo}</p>
+          <button
+            type="button"
+            className="page-no-button"
+            onClick={this.onClickNextPage}
+          >
+            Next
           </button>
         </div>
       </div>

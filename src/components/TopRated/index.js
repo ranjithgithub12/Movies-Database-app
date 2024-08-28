@@ -96,17 +96,17 @@ class TopRated extends Component {
           <button
             type="button"
             className="page-no-button"
-            onClick={this.onClickNextPage}
+            onClick={this.onClickPrevPage}
           >
-            Next
+            Prev
           </button>
           <p>{pageNo}</p>
           <button
             type="button"
             className="page-no-button"
-            onClick={this.onClickPrevPage}
+            onClick={this.onClickNextPage}
           >
-            Prev
+            Next
           </button>
         </div>
       </div>

@@ -4,12 +4,6 @@ import {Component} from 'react'
 import {Link, withRouter} from 'react-router-dom'
 
 class Header extends Component {
-  state = {mobileViewHeader: false}
-
-  onClickMobileBar = () => {
-    this.setState({mobileViewHeader: true})
-  }
-
   onClickSearchIcon = () => {
     const {onClicksearch, match} = this.props
     const {path} = match
@@ -89,15 +83,6 @@ class Header extends Component {
             type="button"
             className="search-button"
             onClick={this.onClickSearchIcon}
-          >
-            Search
-          </button>
-        </div>
-        <div className="mobile-nav-container">
-          <button
-            type="button"
-            className="mobile-menu-button"
-            onClick={this.onClickMobileBar}
           >
             Search
           </button>
